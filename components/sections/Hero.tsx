@@ -29,14 +29,14 @@ export const HeroSection = () => {
   return (
     <section className="relative h-[110vh] min-h-[800px] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/90 to-orange-900/80 z-0">
-        <Image
+        {/* <Image
           src="/images/hero-court.jpg"
           alt="Basketball court"
           fill
           className="object-cover mix-blend-overlay"
           priority
           quality={100}
-        />
+        /> */}
       </div>
 
       <motion.div
