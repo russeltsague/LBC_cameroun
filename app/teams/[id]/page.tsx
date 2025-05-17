@@ -1,10 +1,9 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { FiCalendar, FiUsers, FiMapPin, FiAward, FiArrowLeft } from 'react-icons/fi'
-// import TeamRoster from '@/components/team/TeamRoster'
 import { TeamRoster } from '@/components/team/TeamRoster'
-import {TeamStats} from '@/components/team/TeamStats'
-import {UpcomingMatches} from '@/components/team/UpcomingMatches'
+import { TeamStats } from '@/components/team/TeamStats'
+import { UpcomingMatches } from '@/components/team/UpcomingMatches'
 import { PastMatches } from '@/components/team/PastMatches'
 import Link from 'next/link'
 
@@ -40,7 +39,15 @@ async function getTeam(id: string): Promise<Team | null> {
   return teams.find(team => team.id === id) || null
 }
 
-export default async function TeamPage({ params }: { params: { id: string } }) {
+// Define the type for the page props explicitly
+interface PageProps {
+  params: {
+    id: string
+  }
+}
+
+// Add explicit return type Promise<JSX.Element> because the component is async
+export default async function TeamPage({ params }: PageProps): Promise<JSX.Element> {
   const team = await getTeam(params.id)
   if (!team) return notFound()
 
