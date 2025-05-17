@@ -20,8 +20,8 @@ interface Team {
   about: string
 }
 
+// Simulated fetch function
 async function getTeam(id: string): Promise<Team | null> {
-  // In production, fetch from your API
   const teams: Team[] = [
     {
       id: '1',
@@ -39,21 +39,17 @@ async function getTeam(id: string): Promise<Team | null> {
   return teams.find(team => team.id === id) || null
 }
 
-// Define the type for the page props explicitly
-interface PageProps {
-  params: {
-    id: string
-  }
-}
-
-// Add explicit return type Promise<JSX.Element> because the component is async
-export default async function TeamPage({ params }: PageProps): Promise<JSX.Element> {
+// ✅ params is just an object: not a Promise!
+export default async function TeamPage({
+  params,
+}: {
+  params: { id: string }
+}) {
   const team = await getTeam(params.id)
   if (!team) return notFound()
 
   return (
     <div className="bg-gray-950 min-h-screen">
-      {/* Team Header */}
       <div className="relative h-64 bg-gradient-to-r from-blue-900/90 to-orange-900/80">
         <div className="absolute inset-0 bg-[url('/images/court-pattern.svg')] opacity-10" />
         <div className="container mx-auto px-6 h-full flex items-center relative z-10">
@@ -87,28 +83,21 @@ export default async function TeamPage({ params }: PageProps): Promise<JSX.Eleme
         </div>
       </div>
 
-      {/* Team Content */}
+      {/* Main Content */}
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
-            {/* About Team */}
             <div className="bg-gray-900 rounded-xl p-6">
               <h2 className="text-2xl font-bold text-white mb-4">About the Team</h2>
               <p className="text-gray-300">{team.about}</p>
             </div>
 
-            {/* Team Roster */}
             <TeamRoster teamId={team.id} />
-
-            {/* Team Stats */}
             <TeamStats teamId={team.id} />
-
-            {/* Past Matches */}
             <PastMatches teamId={team.id} />
           </div>
 
           <div className="space-y-8">
-            {/* Team Info Card */}
             <div className="bg-gray-900 rounded-xl p-6 sticky top-4">
               <h3 className="text-xl font-bold text-white mb-4">Team Information</h3>
               <div className="space-y-4">
@@ -131,7 +120,6 @@ export default async function TeamPage({ params }: PageProps): Promise<JSX.Eleme
               </div>
             </div>
 
-            {/* Upcoming Matches */}
             <UpcomingMatches teamId={team.id} />
           </div>
         </div>
